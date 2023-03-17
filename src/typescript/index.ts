@@ -25,7 +25,7 @@ function typeofToType(value: unknown): TypeScriptTypes | 'Array' {
     // TODO: decide if this should be changed?
     if (value === null) return 'null';
 
-    let t = typeof value;
+    const t = typeof value;
 
     if (t === 'boolean' || t === 'number' || t === 'string') return t;
 
@@ -48,73 +48,69 @@ function containerSort(a: string, b: string): number {
     return a.length < b.length ? -1 : 1;
 }
 
-function parseToTypeScript(text: any, options?: JSONToTypeScriptOptions) {
-    let textType = typeofToType(text);
+function parseToTypeScript(text: unknown, options?: JSONToTypeScriptOptions) {
+    if (text === null) return options?.overwrites?.null ?? 'null';
 
-    switch (textType) {
-        case 'Array': {
-            let values = new Set<string>();
+    if (text === undefined) return 'unknown';
 
-            for (let i = 0; i < text.length; i += 1) {
-                let t = typeofToType(text?.[i]);
+    if (Array.isArray(text)) {
+        const values = new Set<string>();
 
-                switch (t) {
-                    case 'Array':
-                    case 'object':
-                        values.add(parseToTypeScript(text[i] as unknown[] | {}, options));
-                        break;
-                    case 'null':
-                        values.add(options?.overwrites?.null ?? 'null');
-                        break;
-                    default:
-                        values.add(t);
-                        break;
-                }
+        for (let i = 0; i < text.length; i += 1) {
+            const t = typeofToType(text?.[i]);
+
+            switch (t) {
+                case 'Array':
+                case 'object':
+                    values.add(parseToTypeScript(text[i], options));
+                    break;
+                case 'null':
+                    values.add(options?.overwrites?.null ?? 'null');
+                    break;
+                default:
+                    values.add(t);
+                    break;
             }
-
-            let inner = values?.size
-                ? Array.from(values).sort(containerSort).join('|')
-                : options?.overwrites?.array ?? 'unknown';
-
-            return (options?.useSetInsteadOfArray ? 'Set' : 'Array') + '<' + inner + '>';
         }
 
-        case 'object': {
-            const entries = Object.entries(text);
+        const inner = values?.size
+            ? Array.from(values).sort(containerSort).join('|')
+            : options?.overwrites?.array ?? 'unknown';
 
-            if (!entries?.length) {
-                return 'Record<string,' + options?.overwrites?.object ?? 'unknown' + '>';
-            }
-
-            entries.sort((a, b) => keySort(a[0], b[0]));
-
-            let inner = '{';
-
-            for (const [key, value] of entries) {
-                inner += '"' + key + '"';
-                inner += ':';
-
-                const t = typeofToType(value);
-
-                if (t === 'Array' || t === 'object') {
-                    inner += parseToTypeScript(value as {} | unknown[], options);
-                } else {
-                    inner += t;
-                }
-                inner += ';';
-            }
-
-            return inner + '}';
-        }
-
-        case 'null':
-            return options?.overwrites?.null ?? 'null';
-
-        default:
-            return textType;
+        return (options?.useSetInsteadOfArray ? 'Set' : 'Array') + '<' + inner + '>';
     }
+
+    if (typeof text === 'object') {
+        const entries = Object.entries(text);
+
+        if (!entries?.length) {
+            return 'Record<string,' + options?.overwrites?.object ?? 'unknown' + '>';
+        }
+
+        entries.sort((a, b) => keySort(a[0], b[0]));
+
+        let inner = '{';
+
+        for (const [key, value] of entries) {
+            inner += '"' + key + '"';
+            inner += ':';
+
+            const t = typeofToType(value);
+
+            if (t === 'Array' || t === 'object') {
+                inner += parseToTypeScript(value, options);
+            } else {
+                inner += t;
+            }
+            inner += ';';
+        }
+
+        return inner + '}';
+    }
+
+    return 'unknown';
 }
 
-export function handleParseToTS(content: any, options?: JSONToTypeScriptOptions) {
+export function handleParseToTS(content: unknown, options?: JSONToTypeScriptOptions) {
     return 'type JSON2TSGeneratedStruct=' + parseToTypeScript(content, options) + ';';
 }

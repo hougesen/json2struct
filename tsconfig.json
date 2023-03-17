@@ -1,19 +1,15 @@
 {
     "compilerOptions": {
-        "allowJs": false,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "outDir": "dist",
-        "removeComments": true,
         "rootDir": "src",
-        "skipLibCheck": true,
-        "sourceMap": false,
+        "outDir": "dist",
         "strict": true,
-        "target": "es2021"
+        "target": "es6",
+        "module": "commonjs",
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "types": ["node"]
     },
-    "include": ["src/**/*", "src/**/*.ts"],
-    "exclude": ["src/**/*.test.ts"]
+    "include": ["src/"],
+    "exclude": ["src/__tests__/**", "**/**/*.test.ts"]
 }

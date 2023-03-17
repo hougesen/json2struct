@@ -38,6 +38,16 @@ function typeofToType(value: unknown): TypeScriptTypes | 'Array' {
     return 'unknown';
 }
 
+function keySort(a: string, b: string) {
+    return a < b ? -1 : 1;
+}
+
+function containerSort(a: string, b: string): number {
+    if (a?.length === b.length) return keySort(a, b);
+
+    return a.length < b.length ? -1 : 1;
+}
+
 function parseToTypeScript(text: any, options?: JSONToTypeScriptOptions) {
     let textType = typeofToType(text);
 
@@ -62,7 +72,9 @@ function parseToTypeScript(text: any, options?: JSONToTypeScriptOptions) {
                 }
             }
 
-            let inner = values?.size ? Array.from(values).join('|') : options?.overwrites?.array ?? 'unknown';
+            let inner = values?.size
+                ? Array.from(values).sort(containerSort).join('|')
+                : options?.overwrites?.array ?? 'unknown';
 
             return (options?.useSetInsteadOfArray ? 'Set' : 'Array') + '<' + inner + '>';
         }
@@ -74,7 +86,7 @@ function parseToTypeScript(text: any, options?: JSONToTypeScriptOptions) {
                 return 'Record<string,' + options?.overwrites?.object ?? 'unknown' + '>';
             }
 
-            entries.sort((a, b) => (a[0] < b[0] ? -1 : 1));
+            entries.sort((a, b) => keySort(a[0], b[0]));
 
             let inner = '{';
 

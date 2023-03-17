@@ -1,4 +1,23 @@
-export type TypeScriptTypes = 'string' | 'number' | 'object' | 'null' | 'boolean' | 'unknown';
+export type TypeScriptTypes = 'string' | 'number' | 'object' | 'null' | 'boolean' | 'unknown' | 'any';
+
+export interface JSONToTypeScriptOptions {
+    overwrites?: {
+        /**
+         * @summary overwrite the type of null values
+         */
+        null?: TypeScriptTypes;
+
+        /**
+         * @summary used to overwrite the 'unknown' type of empty arrays from Array<unknown> into Array<T>
+         */
+        array?: TypeScriptTypes;
+
+        /**
+         * @summary used to overwrite the 'unknown' type of empty objects from Record<string, unknown> into Record<string, T>
+         */
+        object?: TypeScriptTypes;
+    };
+}
 
 function typeofToType(value: unknown): TypeScriptTypes | 'Array' {
     // TODO: decide if this should be changed?
@@ -17,56 +36,71 @@ function typeofToType(value: unknown): TypeScriptTypes | 'Array' {
     return 'unknown';
 }
 
-function parseToTypeScript(text: any) {
+function parseToTypeScript(text: any, options?: JSONToTypeScriptOptions) {
     let textType = typeofToType(text);
 
-    if ('Array' === textType) {
-        let values = new Set<string>();
+    switch (textType) {
+        case 'Array': {
+            let values = new Set<string>();
 
-        for (let i = 0; i < text.length; i += 1) {
-            let t = typeofToType(text?.[i]);
+            for (let i = 0; i < text.length; i += 1) {
+                let t = typeofToType(text?.[i]);
 
-            if (t === 'Array' || t === 'object') {
-                values.add(parseToTypeScript(text[i] as unknown[] | {}));
-            } else {
-                values.add(t);
+                switch (t) {
+                    case 'Array':
+                    case 'object':
+                        values.add(parseToTypeScript(text[i] as unknown[] | {}, options));
+                        break;
+                    case 'null':
+                        values.add(options?.overwrites?.null ?? 'null');
+                        break;
+                    default:
+                        values.add(t);
+                        break;
+                }
             }
+
+            let inner = values?.size ? Array.from(values).join('|') : options?.overwrites?.array ?? 'unknown';
+
+            return 'Array<' + inner + '>';
         }
 
-        let inner = values?.size ? Array.from(values).join('|') : 'unknown';
+        case 'object': {
+            const entries = Object.entries(text);
 
-        return 'Array<' + inner + '>';
-    }
-
-    if ('object' === textType) {
-        const entries = Object.entries(text);
-
-        if (!entries?.length) {
-            return 'Record<string,unknown>';
-        }
-
-        entries.sort((a, b) => (a[0] < b[0] ? -1 : 1));
-        let inner = '{';
-        for (const [key, value] of entries) {
-            inner += '"' + key + '"';
-            inner += ':';
-
-            const t = typeofToType(value);
-
-            if (t === 'Array' || t === 'object') {
-                inner += parseToTypeScript(value as {} | unknown[]);
-            } else {
-                inner += t;
+            if (!entries?.length) {
+                return 'Record<string,' + options?.overwrites?.object ?? 'unknown' + '>';
             }
-            inner += ';';
+
+            entries.sort((a, b) => (a[0] < b[0] ? -1 : 1));
+
+            let inner = '{';
+
+            for (const [key, value] of entries) {
+                inner += '"' + key + '"';
+                inner += ':';
+
+                const t = typeofToType(value);
+
+                if (t === 'Array' || t === 'object') {
+                    inner += parseToTypeScript(value as {} | unknown[], options);
+                } else {
+                    inner += t;
+                }
+                inner += ';';
+            }
+
+            return inner + '}';
         }
 
-        return inner + '}';
-    }
+        case 'null':
+            return options?.overwrites?.null ?? 'null';
 
-    return textType;
+        default:
+            return textType;
+    }
 }
 
-export function handleParseToTS(content: any) {
-    return 'type JSON2TSGeneratedStruct=' + parseToTypeScript(content) + ';';
+export function handleParseToTS(content: any, options?: JSONToTypeScriptOptions) {
+    return 'type JSON2TSGeneratedStruct=' + parseToTypeScript(content, options) + ';';
 }

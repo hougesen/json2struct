@@ -1,5 +1,5 @@
 import { it, describe, expect } from 'vitest';
-import { handleParseToTS } from '../../typescript';
+import { handleParseToTS } from '../../typescript/index';
 
 describe('json2ts', async () => {
     it('only string', () => expect(handleParseToTS('mhouge.dk')).toEqual('type JSON2TSGeneratedStruct=string;'));
@@ -40,4 +40,27 @@ describe('json2ts', async () => {
 
         expect(handleParseToTS(JSON.parse(json))).toEqual(expectedResult);
     });
+
+    it('overwrite default empty array value to any', () =>
+        expect(handleParseToTS([], { overwrites: { array: 'any' } })).toEqual(
+            'type JSON2TSGeneratedStruct=Array<any>;'
+        ));
+
+    it('overwrite default empty array value to string', () =>
+        expect(handleParseToTS([], { overwrites: { array: 'string' } })).toEqual(
+            'type JSON2TSGeneratedStruct=Array<string>;'
+        ));
+
+    it('overwrite default empty array value to number', () =>
+        expect(handleParseToTS([], { overwrites: { array: 'number' } })).toEqual(
+            'type JSON2TSGeneratedStruct=Array<number>;'
+        ));
+
+    it('overwrite null values to any', () =>
+        expect(handleParseToTS(null, { overwrites: { null: 'any' } })).toEqual('type JSON2TSGeneratedStruct=any;'));
+
+    it('overwrite null values to unknown', () =>
+        expect(handleParseToTS(null, { overwrites: { null: 'unknown' } })).toEqual(
+            'type JSON2TSGeneratedStruct=unknown;'
+        ));
 });

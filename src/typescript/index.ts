@@ -1,6 +1,8 @@
 export type TypeScriptTypes = 'string' | 'number' | 'object' | 'null' | 'boolean' | 'unknown' | 'any';
 
 export interface JSONToTypeScriptOptions {
+    useSetInsteadOfArray?: boolean;
+
     overwrites?: {
         /**
          * @summary overwrite the type of null values
@@ -62,7 +64,7 @@ function parseToTypeScript(text: any, options?: JSONToTypeScriptOptions) {
 
             let inner = values?.size ? Array.from(values).join('|') : options?.overwrites?.array ?? 'unknown';
 
-            return 'Array<' + inner + '>';
+            return (options?.useSetInsteadOfArray ? 'Set' : 'Array') + '<' + inner + '>';
         }
 
         case 'object': {

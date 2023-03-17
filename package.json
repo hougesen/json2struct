@@ -21,8 +21,14 @@
         "url": "https://github.com/hougesen/json2struct/issues"
     },
     "homepage": "https://github.com/hougesen/json2struct#readme",
+    "dependencies": {
+        "@commander-js/extra-typings": "^10.0.3",
+        "commander": "^10.0.0",
+        "prettier": "^2.8.4"
+    },
     "devDependencies": {
         "@types/node": "^18.15.3",
+        "@types/prettier": "^2.7.2",
         "typescript": "^5.0.2",
         "vite": "^4.2.0",
         "vitest": "^0.29.3"

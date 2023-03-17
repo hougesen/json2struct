@@ -1,0 +1,29 @@
+{
+    "name": "json2interface",
+    "version": "0.0.1",
+    "description": "Convert JSON to types",
+    "main": "dist/index.js",
+    "scripts": {
+        "start": "node dist/index.js",
+        "build": "tsc",
+        "test": "vitest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/hougesen/json2interface.git"
+    },
+    "keywords": [
+        "json"
+    ],
+    "author": "Mads Hougesen",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/hougesen/json2interface/issues"
+    },
+    "homepage": "https://github.com/hougesen/json2interface#readme",
+    "devDependencies": {
+        "@types/node": "^18.15.3",
+        "typescript": "^5.0.2",
+        "vitest": "^0.29.3"
+    }
+}

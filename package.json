@@ -30,6 +30,8 @@
         "@types/eslint": "^8.21.2",
         "@types/node": "^18.15.3",
         "@types/prettier": "^2.7.2",
+        "@typescript-eslint/eslint-plugin": "^5.55.0",
+        "@typescript-eslint/parser": "^5.55.0",
         "eslint": "^8.36.0",
         "typescript": "^5.0.2",
         "vite": "^4.2.0",

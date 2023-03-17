@@ -35,8 +35,24 @@ describe('json2ts', async () => {
     });
 
     describe('objects', () => {
+        it('object with only primitives', () => {
+            let jsonStr = `
+                {
+                    "tabWidth": 4,
+                    "useTabs": false,
+                    "printWidth": 120,
+                    "singleQuote": true,
+                    "semi": true
+                }`;
+
+            let expectedResult =
+                'type JSON2TSGeneratedStruct={"printWidth":number;"semi":boolean;"singleQuote":boolean;"tabWidth":number;"useTabs":boolean;};';
+
+            expect(handleParseToTS(JSON.parse(jsonStr))).toEqual(expectedResult);
+        });
+
         it('mixed record', () => {
-            let json = `
+            let jsonStr = `
                 {
                     "data": [
                         {
@@ -50,7 +66,7 @@ describe('json2ts', async () => {
             let expectedResult =
                 'type JSON2TSGeneratedStruct={"data":Array<{"length":number;"message":string;"retry_after":number;}>;};';
 
-            expect(handleParseToTS(JSON.parse(json))).toEqual(expectedResult);
+            expect(handleParseToTS(JSON.parse(jsonStr))).toEqual(expectedResult);
         });
     });
 

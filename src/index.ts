@@ -12,15 +12,22 @@ program.name('json2struct').description('CLI for converting JSON to TypeScript t
 program
     .command('convert', { isDefault: true })
     .description('Convert JSON file to type file')
-    .argument('<file-path>')
-    .action(async (path) => {
-        const fileContent = await fs.readFile(path);
+    .argument('<input-file>')
+    .argument('[output-file]', '')
+    .action(async (inputPath, outputPath) => {
+        const fileContent = await fs.readFile(inputPath);
 
         const json = JSON.parse(fileContent.toString());
 
         const parsedStruct = handleParseToTS(json);
 
-        process.stdout.write(format(parsedStruct, { parser: 'typescript' }));
+        const formattedStruct = format(parsedStruct, { parser: 'typescript' });
+
+        if (outputPath?.length) {
+            await fs.appendFile(outputPath, formattedStruct);
+        }
+
+        process.stdout.write(formattedStruct);
     });
 
 program.addHelpCommand();

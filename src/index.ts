@@ -21,9 +21,15 @@ program
     .command('convert <input> [output]', { isDefault: true })
     .description('Convert JSON file to type file')
     .option('--disable-format')
+    .option('--overwrite')
     .addOption(new Option('-lang, --language <output-language>').choices(['typescript']).default('typescript'))
     .action(async (inputPath, outputPath, args) => {
         console.info(`\u001b[32mjson2struct: Converting ${inputPath} to ${args.language}:\u001b[0m`);
+
+        if (!outputPath?.length && args?.overwrite) {
+            program.error('--overwrite options requires an output path');
+            return;
+        }
 
         const fileContent = await fs.readFile(inputPath);
 
@@ -35,7 +41,11 @@ program
             const formattedStruct = args?.disableFormat ? parsedStruct : format(parsedStruct, { parser: 'typescript' });
 
             if (outputPath?.length) {
-                await fs.appendFile(outputPath, formattedStruct);
+                if (args?.overwrite) {
+                    await fs.writeFile(outputPath, formattedStruct);
+                } else {
+                    await fs.appendFile(outputPath, formattedStruct);
+                }
             }
 
             console.info(formattedStruct);

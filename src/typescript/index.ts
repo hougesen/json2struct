@@ -1,3 +1,5 @@
+import { containerSort, keySort } from '../shared/sorting';
+
 export type TypeScriptTypes = 'string' | 'number' | 'object' | 'null' | 'boolean' | 'unknown' | 'any';
 
 export interface JSONToTypeScriptOptions {
@@ -6,16 +8,19 @@ export interface JSONToTypeScriptOptions {
     overwrites?: {
         /**
          * @summary overwrite the type of null values
+         * @default null
          */
         null?: TypeScriptTypes;
 
         /**
          * @summary used to overwrite the 'unknown' type of empty arrays from Array<unknown> into Array<T>
+         * @default Array<unknown>
          */
         array?: TypeScriptTypes;
 
         /**
          * @summary used to overwrite the 'unknown' type of empty objects from Record<string, unknown> into Record<string, T>
+         * @default Record<string, unknown>
          */
         object?: TypeScriptTypes;
     };
@@ -36,16 +41,6 @@ function typeofToType(value: unknown): TypeScriptTypes | 'Array' {
     }
 
     return 'unknown';
-}
-
-function keySort(a: string, b: string) {
-    return a < b ? -1 : 1;
-}
-
-function containerSort(a: string, b: string): number {
-    if (a?.length === b.length) return keySort(a, b);
-
-    return a.length < b.length ? -1 : 1;
 }
 
 function parseToTypeScript(text: unknown, options?: JSONToTypeScriptOptions) {
@@ -92,8 +87,7 @@ function parseToTypeScript(text: unknown, options?: JSONToTypeScriptOptions) {
         let inner = '{';
 
         for (const [key, value] of entries) {
-            inner += '"' + key + '"';
-            inner += ':';
+            inner += '"' + key + '":';
 
             const t = typeofToType(value);
 
@@ -102,13 +96,14 @@ function parseToTypeScript(text: unknown, options?: JSONToTypeScriptOptions) {
             } else {
                 inner += t;
             }
+
             inner += ';';
         }
 
         return inner + '}';
     }
 
-    return 'unknown';
+    return typeofToType(text);
 }
 
 export function handleParseToTS(content: unknown, options?: JSONToTypeScriptOptions) {

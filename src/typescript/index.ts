@@ -79,7 +79,7 @@ function parseToTypeScript(text: unknown, options?: JSONToTypeScriptOptions) {
         const entries = Object.entries(text);
 
         if (!entries?.length) {
-            return 'Record<string,' + options?.overwrites?.object ?? 'unknown' + '>';
+            return 'Record<string,' + (options?.overwrites?.object ?? 'unknown') + '>';
         }
 
         entries.sort((a, b) => keySort(a[0], b[0]));

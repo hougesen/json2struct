@@ -9,6 +9,7 @@
         "esModuleInterop": true,
         "moduleResolution": "node",
         "types": ["node"],
+        "declaration": true,
         "declarationMap": true
     },
     "include": ["src/"],

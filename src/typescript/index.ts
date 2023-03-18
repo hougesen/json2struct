@@ -6,16 +6,19 @@ export interface JSONToTypeScriptOptions {
     overwrites?: {
         /**
          * @summary overwrite the type of null values
+         * @default null
          */
         null?: TypeScriptTypes;
 
         /**
          * @summary used to overwrite the 'unknown' type of empty arrays from Array<unknown> into Array<T>
+         * @default Array<unknown>
          */
         array?: TypeScriptTypes;
 
         /**
          * @summary used to overwrite the 'unknown' type of empty objects from Record<string, unknown> into Record<string, T>
+         * @default Record<string, unknown>
          */
         object?: TypeScriptTypes;
     };
@@ -108,7 +111,7 @@ function parseToTypeScript(text: unknown, options?: JSONToTypeScriptOptions) {
         return inner + '}';
     }
 
-    return 'unknown';
+    return typeofToType(text);
 }
 
 export function handleParseToTS(content: unknown, options?: JSONToTypeScriptOptions) {

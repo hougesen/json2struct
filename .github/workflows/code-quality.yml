@@ -46,8 +46,4 @@ jobs:
               run: npm run lint
 
             - name: Run format 💎
-              run: npm run format
-
-            - uses: EndBug/add-and-commit@v9
-              with:
-                  message: 'style: code quality fixes from code-quality.yml'
+              run: npm run format:check

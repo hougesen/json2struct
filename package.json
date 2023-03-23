@@ -10,7 +10,8 @@
         "start": "node dist/index.js",
         "build": "tsc",
         "format": "prettier --ignore-path .gitignore --write .",
-        "lint": "",
+        "format:check": "prettier --check --ignore-path .gitignore --write .",
+        "lint": "eslint --ext \".js,.mjs,.ts,.d.ts\" --ignore-path .gitignore .",
         "test": "vitest --run",
         "test:watch": "vitest",
         "local": "npm uninstall -g && npm install -g && json2struct"

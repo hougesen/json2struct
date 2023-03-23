@@ -1,0 +1,7 @@
+{
+    "number_key": 1,
+    "string_key": "json2struct",
+    "boolean_key": true,
+    "array_key": [42],
+    "map_key": { "key": "value" }
+}

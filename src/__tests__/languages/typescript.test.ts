@@ -14,9 +14,9 @@ describe('primitives', () => {
     it('numbers', () => {
         expect(convertTokenToTypeScript(tokenize(1))).toEqual('number');
 
-        expect(tokenize(2)).toEqual('number');
+        expect(convertTokenToTypeScript(tokenize(2))).toEqual('number');
 
-        expect(tokenize(3)).toEqual('number');
+        expect(convertTokenToTypeScript(tokenize(3))).toEqual('number');
     });
 
     it('decimals should be converted to number', () => {
@@ -73,7 +73,7 @@ describe('arrays', () => {
 
     it('maps should be able to be mixed in arrays', () => {
         expect(convertTokenToTypeScript(tokenize([{ key: 1.23 }, { key: 'mads' }, { key: 1 }]))).toEqual(
-            'Array<{key:float}|{key:string}|{key:number}>'
+            'Array<{key:number}|{key:string}>'
         );
     });
 });
@@ -96,7 +96,7 @@ describe('maps', () => {
                     falseKey: false,
                 })
             )
-        ).toEqual('{falseKey:boolean;nullKey:null;numberKey:number;stringKey:string;trueKey:string}');
+        ).toEqual('{falseKey:boolean;nullKey:null;numberKey:number;stringKey:string;trueKey:boolean}');
     });
 
     it('maps should be able to be nested', () => {

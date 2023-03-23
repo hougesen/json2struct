@@ -76,15 +76,12 @@ describe('arrays', () => {
     });
 
     it('maps should be able to be mixed in arrays', () => {
-        const v = tokenize([{ key: 1.23 }, { key: 'mads' }, { key: 1 }]);
-
-        console.info(JSON.stringify(v));
-        expect(v).toEqual<ArrayToken>({
+        expect(tokenize([{ key: 1.23 }, { key: 'mads' }, { key: 1 }])).toEqual<ArrayToken>({
             type: 'array',
             children: [
                 { type: 'map', children: [{ key: 'key', type: 'float' }] },
-                { type: 'map', children: [{ key: 'key', type: 'number' }] },
                 { type: 'map', children: [{ key: 'key', type: 'string' }] },
+                { type: 'map', children: [{ key: 'key', type: 'number' }] },
             ],
         });
     });
@@ -164,7 +161,6 @@ describe('maps', () => {
     });
 
     it('it should be possible to mix map with arrays', () => {
-        //
         expect(tokenize({ arr: [1.23] })).toEqual<MapToken>({
             type: 'map',
             children: [{ key: 'arr', type: 'array', children: [{ type: 'float' }] }],

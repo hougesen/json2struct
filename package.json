@@ -1,6 +1,6 @@
 {
     "name": "json2struct",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Easily convert JSON to type files",
     "main": "dist/index.js",
     "scripts": {

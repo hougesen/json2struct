@@ -68,13 +68,13 @@ describe('arrays', () => {
 
     it('duplicate maps should be removed from arrays', () => {
         expect(convertTokenToTypeScript(tokenize([{ key: 'mads' }, { key: 'was' }, { key: 'here' }]))).toEqual(
-            'Array<{ key: string }>'
+            'Array<{ "key": string }>'
         );
     });
 
     it('maps should be able to be mixed in arrays', () => {
         expect(convertTokenToTypeScript(tokenize([{ key: 1.23 }, { key: 'mads' }, { key: 1 }]))).toEqual(
-            'Array<{ key: number } | { key: string }>'
+            'Array<{ "key": number } | { "key": string }>'
         );
     });
 });
@@ -85,7 +85,7 @@ describe('maps', () => {
     });
 
     it('maps should support primitive value children', () => {
-        expect(convertTokenToTypeScript(tokenize({ key: 'value' }))).toEqual('{ key: string }');
+        expect(convertTokenToTypeScript(tokenize({ key: 'value' }))).toEqual('{ "key": string }');
 
         expect(
             convertTokenToTypeScript(
@@ -97,7 +97,9 @@ describe('maps', () => {
                     falseKey: false,
                 })
             )
-        ).toEqual('{ falseKey: boolean; nullKey: null; numberKey: number; stringKey: string; trueKey: boolean }');
+        ).toEqual(
+            '{ "falseKey": boolean; "nullKey": null; "numberKey": number; "stringKey": string; "trueKey": boolean }'
+        );
     });
 
     it('maps should be able to be nested', () => {
@@ -115,11 +117,11 @@ describe('maps', () => {
                     },
                 })
             )
-        ).toEqual('{ a: { b: { c: { d: { key: string } } } } }');
+        ).toEqual('{ "a": { "b": { "c": { "d": { "key": string } } } } }');
     });
 
     it('it should be possible to mix map with arrays', () => {
-        expect(convertTokenToTypeScript(tokenize({ arr: [1.23] }))).toEqual('{ arr: Array<number> }');
+        expect(convertTokenToTypeScript(tokenize({ arr: [1.23] }))).toEqual('{ "arr": Array<number> }');
     });
 
     it('maps should be sorted automatically', () => {
@@ -182,7 +184,7 @@ describe('json2ts', async () => {
                 }`;
 
             const expectedResult =
-                'type GeneratedStruct = { printWidth: number; semi: boolean; singleQuote: boolean; tabWidth: number; useTabs: boolean }';
+                'type GeneratedStruct = { "printWidth": number; "semi": boolean; "singleQuote": boolean; "tabWidth": number; "useTabs": boolean }';
 
             expect(generateTypeScriptType(tokenize(JSON.parse(jsonStr)))).toEqual(expectedResult);
         });
@@ -200,7 +202,7 @@ describe('json2ts', async () => {
                 }`;
 
             const expectedResult =
-                'type GeneratedStruct = { data: Array<{ length: number; message: string; retry_after: number }> }';
+                'type GeneratedStruct = { "data": Array<{ "length": number; "message": string; "retry_after": number }> }';
 
             expect(generateTypeScriptType(tokenize(JSON.parse(jsonStr)))).toEqual(expectedResult);
         });

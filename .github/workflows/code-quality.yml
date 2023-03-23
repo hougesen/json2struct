@@ -1,0 +1,53 @@
+name: code-quality
+
+on:
+    workflow_dispatch:
+    pull_request:
+    push:
+        branches:
+            - main
+jobs:
+    ci:
+        runs-on: ${{ matrix.os }}
+
+        strategy:
+            matrix:
+                os: [ubuntu-latest]
+                node: [18]
+
+        steps:
+            - name: Checkout 🛎
+              uses: actions/checkout@master
+
+            - name: Setup node env 🏗
+              uses: actions/setup-node@v2.1.2
+              with:
+                  node-version: ${{ matrix.node }}
+                  check-latest: true
+
+            - name: Cache node_modules 📦
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: Install dependencies 👨🏻‍💻
+              run: npm i
+
+            - name: Build project
+              run: npm run build
+
+            - name: Test project 🫣
+              run: npm run test
+
+            - name: Run lint 👀
+              run: npm run lint
+
+            - name: Run format 💎
+              run: npm run format
+
+            - uses: EndBug/add-and-commit@v9
+              with:
+                  message: 'style: code quality fixes from code-quality.yml'

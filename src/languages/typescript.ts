@@ -24,7 +24,7 @@ function convertMap(token: MapToken): string {
     const children = new Set<string>();
 
     for (let i = 0; i < token.children.length; i += 1) {
-        children.add(`${token.children[i].key}: ${convertTokenToTypeScript(token.children[i])}`);
+        children.add(`"${token.children[i].key}": ${convertTokenToTypeScript(token.children[i])}`);
     }
 
     const childTypesArr = Array.from(children);

@@ -1,4 +1,4 @@
-import { Token, ArrayToken, MapToken } from '../tokenizer';
+import { ArrayToken, MapToken, Token } from '../tokenizer';
 
 function convertArray(token: ArrayToken): string {
     if (!token?.children?.length) return 'Array<unknown>';

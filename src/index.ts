@@ -1,9 +1,19 @@
 import fs from 'fs/promises';
-import { format } from 'prettier';
 
 import { Command, Option } from '@commander-js/extra-typings';
 
-import { handleParseToTS } from './typescript';
+import { generateTypeScriptType } from './languages/typescript';
+import { Token, tokenize } from './tokenizer';
+
+function convertToLanguage(language: string, token: Token) {
+    switch (language) {
+        case 'typescript':
+            return generateTypeScriptType(token);
+
+        default:
+            throw new Error(`${language} is not supported`);
+    }
+}
 
 const program = new Command();
 
@@ -20,7 +30,6 @@ program
 program
     .command('convert <input> [output]', { isDefault: true })
     .description('Convert JSON file to type file')
-    .option('--disable-format')
     .option('--overwrite')
     .addOption(new Option('-lang, --language <output-language>').choices(['typescript']).default('typescript'))
     .action(async (inputPath, outputPath, args) => {
@@ -35,21 +44,19 @@ program
 
         const json = JSON.parse(fileContent.toString());
 
-        if (args.language === 'typescript') {
-            const parsedStruct = handleParseToTS(json);
+        const tokens = tokenize(json);
 
-            const formattedStruct = args?.disableFormat ? parsedStruct : format(parsedStruct, { parser: 'typescript' });
+        const generatedStruct = convertToLanguage(args?.language ?? 'typescript', tokens);
 
-            if (outputPath?.length) {
-                if (args?.overwrite) {
-                    await fs.writeFile(outputPath, formattedStruct);
-                } else {
-                    await fs.appendFile(outputPath, formattedStruct);
-                }
+        if (outputPath?.length) {
+            if (args?.overwrite) {
+                await fs.writeFile(outputPath, generatedStruct);
+            } else {
+                await fs.appendFile(outputPath, generatedStruct);
             }
-
-            console.info(formattedStruct);
         }
+
+        console.info(generatedStruct);
     });
 
 program.addHelpCommand();

@@ -1,6 +1,7 @@
-import { it, describe, expect } from 'vitest';
-import { tokenize } from '../../tokenizer';
+import { describe, expect, it } from 'vitest';
+
 import { convertTokenToTypeScript, generateTypeScriptType } from '../../languages/typescript';
+import { tokenize } from '../../tokenizer';
 
 describe('primitives', () => {
     it('strings', () => {

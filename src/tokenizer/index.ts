@@ -1,4 +1,4 @@
-import { sortChildren } from '../shared/sorting';
+import { sortChildren } from './sorting';
 
 export type PrimitiveToken = { key?: string; type: 'number' | 'string' | 'float' | 'boolean' | 'null' | 'unknown' };
 

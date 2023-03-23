@@ -1,6 +1,6 @@
 import { it, describe, expect } from 'vitest';
 import { tokenize } from '../../tokenizer';
-import { convertTokenToTypeScript } from '../../languages/typescript';
+import { convertTokenToTypeScript, generateTypeScriptType } from '../../languages/typescript';
 
 describe('primitives', () => {
     it('strings', () => {
@@ -125,5 +125,83 @@ describe('maps', () => {
         expect(convertTokenToTypeScript(tokenize({ a: 'a', b: 'b', c: 'c' }))).toEqual(
             convertTokenToTypeScript(tokenize({ c: 'c', b: 'b', a: 'a' }))
         );
+    });
+});
+
+describe('json2ts', async () => {
+    describe('arrays', () => {
+        it('only string', () =>
+            expect(generateTypeScriptType(tokenize('mhouge.dk'))).toEqual('type GeneratedStruct = string'));
+
+        it('only number', () => expect(generateTypeScriptType(tokenize(42))).toEqual('type GeneratedStruct = number'));
+
+        it('only null', () => expect(generateTypeScriptType(tokenize(null))).toEqual('type GeneratedStruct = null'));
+
+        it('only string', () =>
+            expect(generateTypeScriptType(tokenize('mhouge.dk'))).toEqual('type GeneratedStruct = string'));
+
+        it('empty array', () =>
+            expect(generateTypeScriptType(tokenize([]))).toEqual('type GeneratedStruct = Array<unknown>'));
+
+        it('string array', () =>
+            expect(generateTypeScriptType(tokenize(['mhouge.dk']))).toEqual('type GeneratedStruct = Array<string>'));
+
+        it('number array', () =>
+            expect(generateTypeScriptType(tokenize([42]))).toEqual('type GeneratedStruct = Array<number>'));
+
+        // NOTE: should this be switched to Array<unknown>?
+        it('null array', () =>
+            expect(generateTypeScriptType(tokenize([null]))).toEqual('type GeneratedStruct = Array<null>'));
+
+        it('empty matrix', () =>
+            expect(generateTypeScriptType(tokenize([[], [], []]))).toEqual(
+                'type GeneratedStruct = Array<Array<unknown>>'
+            ));
+
+        it('mixed array', () => {
+            expect(generateTypeScriptType(tokenize([1, 'mhouge.dk']))).toEqual(
+                'type GeneratedStruct = Array<number | string>'
+            );
+
+            expect(generateTypeScriptType(tokenize([1, 'mhouge.dk', null]))).toEqual(
+                'type GeneratedStruct = Array<null | number | string>'
+            );
+        });
+    });
+
+    describe('objects', () => {
+        it('object with only primitives', () => {
+            const jsonStr = `
+                {
+                    "tabWidth": 4,
+                    "useTabs": false,
+                    "printWidth": 120,
+                    "singleQuote": true,
+                    "semi": true
+                }`;
+
+            const expectedResult =
+                'type GeneratedStruct = { printWidth: number; semi: boolean; singleQuote: boolean; tabWidth: number; useTabs: boolean }';
+
+            expect(generateTypeScriptType(tokenize(JSON.parse(jsonStr)))).toEqual(expectedResult);
+        });
+
+        it('mixed record', () => {
+            const jsonStr = `
+                {
+                    "data": [
+                        {
+                            "length" : 60,
+                            "message" : "",
+                            "retry_after" : 480
+                        }
+                    ]
+                }`;
+
+            const expectedResult =
+                'type GeneratedStruct = { data: Array<{ length: number; message: string; retry_after: number }> }';
+
+            expect(generateTypeScriptType(tokenize(JSON.parse(jsonStr)))).toEqual(expectedResult);
+        });
     });
 });

@@ -49,3 +49,7 @@ export function convertTokenToTypeScript(token: Token): string {
             return token.type;
     }
 }
+
+export function generateTypeScriptType(token: Token): string {
+    return `type GeneratedStruct = ${convertTokenToTypeScript(token)}`;
+}

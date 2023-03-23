@@ -3,14 +3,14 @@
         "rootDir": "src",
         "outDir": "dist",
         "strict": true,
-        "target": "es6",
+        "target": "es5",
         "module": "commonjs",
-        "sourceMap": true,
         "esModuleInterop": true,
-        "moduleResolution": "node",
         "types": ["node"],
         "declaration": true,
-        "declarationMap": true
+        "declarationMap": true,
+        "lib": ["es6", "es2015", "dom"],
+        "resolveJsonModule": true
     },
     "include": ["src/"],
     "exclude": ["src/__tests__/**", "**/**/*.test.ts"]

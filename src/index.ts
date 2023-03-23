@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from 'fs/promises';
 
 import { Command, Option } from '@commander-js/extra-typings';
@@ -20,7 +22,7 @@ const program = new Command();
 program
     .name('json2struct')
     .description('CLI for converting JSON to TypeScript types')
-    .version('0.0.1')
+    .version('0.2.0')
     .configureOutput({
         writeOut: (str) => process.stdout.write(`[OUT] ${str}`),
         writeErr: (str) => process.stdout.write(`[ERR] ${str}`),

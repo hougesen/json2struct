@@ -15,23 +15,23 @@ function convertArray(token: ArrayToken): string {
 
     childTypes.sort();
 
-    return `Array<${childTypes?.length ? childTypes.join('|') : 'unknown'}>`;
+    return `Array<${childTypes?.length ? childTypes.join(' | ') : 'unknown'}>`;
 }
 
 function convertMap(token: MapToken): string {
-    if (!token?.children?.length) return 'Record<string,unknown>';
+    if (!token?.children?.length) return 'Record<string, unknown>';
 
     const children = new Set<string>();
 
     for (let i = 0; i < token.children.length; i += 1) {
-        children.add(`${token.children[i].key}:${convertTokenToTypeScript(token.children[i])}`);
+        children.add(`${token.children[i].key}: ${convertTokenToTypeScript(token.children[i])}`);
     }
 
     const childTypesArr = Array.from(children);
 
     childTypesArr.sort();
 
-    return `{${childTypesArr?.join(';')}}`;
+    return `{ ${childTypesArr?.join('; ')} }`;
 }
 
 export function convertTokenToTypeScript(token: Token): string {

@@ -52,7 +52,7 @@ describe('arrays', () => {
 
         expect(convertTokenToTypeScript(tokenize([[[1]]]))).toEqual('Array<Array<Array<number>>>');
 
-        expect(convertTokenToTypeScript(tokenize([[[{}]]]))).toEqual('Array<Array<Array<Record<string,unknown>>>>');
+        expect(convertTokenToTypeScript(tokenize([[[{}]]]))).toEqual('Array<Array<Array<Record<string, unknown>>>>');
     });
 
     it('duplicate primitives should be removed from arrays', () => {
@@ -62,29 +62,29 @@ describe('arrays', () => {
     });
 
     it('arrays should support multiple types', () => {
-        expect(convertTokenToTypeScript(tokenize(['mads', 1, 'mhouge.dk', 2, 3]))).toEqual('Array<number|string>');
+        expect(convertTokenToTypeScript(tokenize(['mads', 1, 'mhouge.dk', 2, 3]))).toEqual('Array<number | string>');
     });
 
     it('duplicate maps should be removed from arrays', () => {
         expect(convertTokenToTypeScript(tokenize([{ key: 'mads' }, { key: 'was' }, { key: 'here' }]))).toEqual(
-            'Array<{key:string}>'
+            'Array<{ key: string }>'
         );
     });
 
     it('maps should be able to be mixed in arrays', () => {
         expect(convertTokenToTypeScript(tokenize([{ key: 1.23 }, { key: 'mads' }, { key: 1 }]))).toEqual(
-            'Array<{key:number}|{key:string}>'
+            'Array<{ key: number } | { key: string }>'
         );
     });
 });
 
 describe('maps', () => {
     it('empty maps should be Record<string,unknown>', () => {
-        expect(convertTokenToTypeScript(tokenize({}))).toEqual('Record<string,unknown>');
+        expect(convertTokenToTypeScript(tokenize({}))).toEqual('Record<string, unknown>');
     });
 
     it('maps should support primitive value children', () => {
-        expect(convertTokenToTypeScript(tokenize({ key: 'value' }))).toEqual('{key:string}');
+        expect(convertTokenToTypeScript(tokenize({ key: 'value' }))).toEqual('{ key: string }');
 
         expect(
             convertTokenToTypeScript(
@@ -96,7 +96,7 @@ describe('maps', () => {
                     falseKey: false,
                 })
             )
-        ).toEqual('{falseKey:boolean;nullKey:null;numberKey:number;stringKey:string;trueKey:boolean}');
+        ).toEqual('{ falseKey: boolean; nullKey: null; numberKey: number; stringKey: string; trueKey: boolean }');
     });
 
     it('maps should be able to be nested', () => {
@@ -114,11 +114,11 @@ describe('maps', () => {
                     },
                 })
             )
-        ).toEqual('{a:{b:{c:{d:{key:string}}}}}');
+        ).toEqual('{ a: { b: { c: { d: { key: string } } } } }');
     });
 
     it('it should be possible to mix map with arrays', () => {
-        expect(convertTokenToTypeScript(tokenize({ arr: [1.23] }))).toEqual('{arr:Array<number>}');
+        expect(convertTokenToTypeScript(tokenize({ arr: [1.23] }))).toEqual('{ arr: Array<number> }');
     });
 
     it('maps should be sorted automatically', () => {

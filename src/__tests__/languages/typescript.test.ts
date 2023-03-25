@@ -131,8 +131,8 @@ describe('maps', () => {
     });
 });
 
-describe('json2ts', async () => {
-    describe('arrays', () => {
+describe('generateTypeScriptType', () => {
+    describe('base types', () => {
         it('only string', () =>
             expect(generateTypeScriptType(tokenize('mhouge.dk'))).toEqual('type GeneratedStruct = string'));
 

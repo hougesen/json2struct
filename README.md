@@ -143,3 +143,9 @@ Record<string, unknown>;
 ```python
 Dict[Any, Any]
 ```
+
+## Notes
+
+As said earlier the aim of this tool is to be used as a helper when writing type definitions, for that reason json2struct tries not to augment the output in any way.
+
+One such example is not flattening the values of maps. In some cases it might make sense to flatten `[{ "a": 1 }, { "b": 1 }]` into `type GeneratedStruct = [{ a?: number; b?: number }];`. But in most cases flattening of maps requires having preexisting knowledge about the data that should be expected. For that reason json2struct prefers to let the user augment the type definition after, instead of imposing it's views on the user. 

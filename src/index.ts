@@ -4,6 +4,7 @@ import fs from 'fs/promises';
 
 import { Command, Option } from '@commander-js/extra-typings';
 
+import { generatePythonStruct } from './languages/python';
 import { generateTypeScriptType } from './languages/typescript';
 import { Token, tokenize } from './tokenizer';
 
@@ -11,6 +12,9 @@ function convertToLanguage(language: string, token: Token) {
     switch (language) {
         case 'typescript':
             return generateTypeScriptType(token);
+
+        case 'python':
+            return generatePythonStruct(token);
 
         default:
             throw new Error(`${language} is not supported`);
@@ -21,7 +25,7 @@ const program = new Command();
 
 program
     .name('json2struct')
-    .description('CLI for converting JSON to TypeScript types')
+    .description('CLI for converting JSON to TypeScript & Python interfaces')
     .version('0.2.0')
     .configureOutput({
         writeOut: (str) => process.stdout.write(`[OUT] ${str}`),
@@ -33,7 +37,9 @@ program
     .command('convert <input> [output]', { isDefault: true })
     .description('Convert JSON file to type file')
     .option('--overwrite')
-    .addOption(new Option('-lang, --language <output-language>').choices(['typescript']).default('typescript'))
+    .addOption(
+        new Option('-lang, --language <output-language>').choices(['typescript', 'python']).default('typescript')
+    )
     .action(async (inputPath, outputPath, args) => {
         console.info(`\u001b[32mjson2struct: Converting ${inputPath} to ${args.language}:\u001b[0m`);
 

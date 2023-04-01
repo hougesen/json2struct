@@ -1,7 +1,7 @@
 {
     "name": "json2struct",
-    "version": "0.2.0",
-    "description": "Tool for converting JSON to TypeScript & Python interfaces",
+    "version": "0.3.0",
+    "description": "Easily translate JSON into type definitions. Currently supporting TypeScript and Python",
     "main": "dist/index.js",
     "bin": {
         "json2struct": "./dist/index.js"

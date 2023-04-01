@@ -25,8 +25,8 @@ const program = new Command();
 
 program
     .name('json2struct')
-    .description('CLI for converting JSON to TypeScript & Python interfaces')
-    .version('0.2.0')
+    .description('Easily translate JSON into type definitions')
+    .version('0.3.0')
     .configureOutput({
         writeOut: (str) => process.stdout.write(`[OUT] ${str}`),
         writeErr: (str) => process.stdout.write(`[ERR] ${str}`),

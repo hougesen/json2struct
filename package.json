@@ -1,7 +1,7 @@
 {
     "name": "json2struct",
     "version": "0.2.0",
-    "description": "CLI tool for converting JSON files into TypeScript types",
+    "description": "Tool for converting JSON to TypeScript & Python interfaces",
     "main": "dist/index.js",
     "bin": {
         "json2struct": "./dist/index.js"
@@ -14,14 +14,20 @@
         "lint": "eslint --ext \".js,.mjs,.ts,.d.ts\" --ignore-path .gitignore .",
         "test": "vitest --run",
         "test:watch": "vitest",
-        "local": "npm uninstall -g && npm install -g && json2struct"
+        "local": "npm uninstall -g && npm install -g && json2struct",
+        "example:typescript": "node dist/index.js ./examples/example.json ./examples/example.d.ts --language typescript --overwrite",
+        "example:python": "node dist/index.js ./examples/example.json ./examples/example.py --language python --overwrite"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/hougesen/json2struct.git"
     },
     "keywords": [
-        "json"
+        "json",
+        "types",
+        "cli",
+        "typescript",
+        "python"
     ],
     "author": "Mads Hougesen",
     "license": "MIT",

@@ -245,10 +245,9 @@ describe('generatePythonStruct', () => {
                 'from typing import List\n\n\nGeneratedStruct: List[int]\n'
             ));
 
-        // NOTE: should this be switched to Array<unknown>?
-        it('null array', () =>
+        it('null arrays should return Any', () =>
             expect(generatePythonStruct(tokenize([null]))).toEqual(
-                'from typing import List\n\n\nGeneratedStruct: List[None]\n'
+                'from typing import Any, List\n\n\nGeneratedStruct: List[Any]\n'
             ));
 
         it('empty matrix', () =>
@@ -260,11 +259,12 @@ describe('generatePythonStruct', () => {
             expect(generatePythonStruct(tokenize([1, 'mhouge.dk']))).toEqual(
                 'from typing import List, Union\n\n\nGeneratedStruct: List[Union[int, str]]\n'
             );
-
-            expect(generatePythonStruct(tokenize([1, 'mhouge.dk', null]))).toEqual(
-                'from typing import List, Union\n\n\nGeneratedStruct: List[Union[None, int, str]]\n'
-            );
         });
+
+        it('arrays with multiple values and null should return optional', () =>
+            expect(generatePythonStruct(tokenize([1, 'mhouge.dk', null]))).toEqual(
+                'from typing import List, Optional, Union\n\n\nGeneratedStruct: List[Optional[Union[int, str]]]\n'
+            ));
     });
 
     describe('objects', () => {

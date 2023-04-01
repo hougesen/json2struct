@@ -18,13 +18,28 @@ function convertArray(token: ArrayToken, imports: Set<string>, subStructs: Map<s
         children.add(convertTokenToPython(token.children[i], imports, subStructs));
     }
 
+    const optional = children.has('None');
+
+    if (optional) {
+        children.delete('None');
+
+        if (children.size) imports.add('Optional');
+    }
+
     const childTypesArr = Array.from(children);
+
+    if (childTypesArr.length === 0) {
+        imports.add('Any');
+        return 'List[Any]';
+    }
 
     if (childTypesArr.length === 1) return `List[${childTypesArr[0]}]`;
 
     childTypesArr.sort();
 
     imports.add('Union');
+
+    if (optional) return `List[Optional[Union[${childTypesArr.join(', ')}]]]`;
 
     return `List[Union[${childTypesArr.join(', ')}]]`;
 }

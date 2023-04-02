@@ -9,14 +9,14 @@ The goal is for the definitions to be used as a starting point for the user, and
 The tool can either be run using npx
 
 ```sh
-$ npx json2struct <REQUIRED_INPUT_FILE> [OPTIONAL_OUTPUT_FILE]
+$ npx json2struct <REQUIRED_INPUT_FILE>
 ```
 
 or be installed globally
 
 ```sh
 $ npm i -g json2struct
-$ json2struct <REQUIRED_INPUT_FILE> [OPTIONAL_OUTPUT_FILE]
+$ json2struct <REQUIRED_INPUT_FILE>
 ```
 
 ## Usage
@@ -39,12 +39,11 @@ $ npx json2struct example.json
 
 json2struct: Converting example.json to typescript:
 type GeneratedStruct = { array_key: Array<number>; boolean_key: boolean; map_key: { key: string }; number_key: number; string_key: string }
-
 ```
 
 ### Writing struct to file
 
-To write the sturcture to a file write the output file name after the input `$ npx json2struct <REQUIRED_INPUT_FILE> [OPTIONAL_OUTPUT_FILE]`.
+To write the sturcture to a file pass use the output option `$ npx json2struct <REQUIRED_INPUT_FILE> --output <OUTPUT_FILE>`.
 
 ```sh
 # example.json
@@ -56,7 +55,7 @@ To write the sturcture to a file write the output file name after the input `$ n
     "map_key": { "key": "value" }
 }
 
-$ npx json2struct example.json example.d.ts
+$ npx json2struct example.json --output example.d.ts
 ```
 
 Writes the following to the output file:
@@ -86,7 +85,7 @@ To use another language pass the `--language` option.
     "map_key": { "key": "value" }
 }
 
-$ npx json2struct example.json example.py --language python
+$ npx json2struct example.json --output example.py --language python
 ```
 
 Writes the following to the output file:
@@ -120,7 +119,7 @@ class GeneratedStruct(TypedDict):
     "map_key": { "key": "value" }
 }
 
-$ npx json2struct example.json example.jl --language julia
+$ npx json2struct example.json --output example.jl --language julia
 ```
 
 Writes the following to the output file:
@@ -187,6 +186,10 @@ Dict[Any, Any]
 ```
 Dict{Any,Any}
 ```
+
+## Examples
+
+Examples of type definitions generated using json2struct can be found in the [examples folder](./examples/).
 
 ## Notes
 

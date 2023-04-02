@@ -1,6 +1,6 @@
 # json2struct
 
-json2struct is a tool that translates JSON into type definitions. It currently supports translating to TypeScript and Python.
+json2struct is a tool that translates JSON into type definitions. It currently supports translating to TypeScript, Python and Julia.
 
 The goal is for the definitions to be used as a starting point for the user, and not as a single source of truth.
 
@@ -86,7 +86,7 @@ To use another language pass the `--language` option.
     "map_key": { "key": "value" }
 }
 
-$ npx json2struct example.json example.d.ts --language python
+$ npx json2struct example.json example.py --language python
 ```
 
 Writes the following to the output file:
@@ -108,9 +108,41 @@ class GeneratedStruct(TypedDict):
     string_key: str
 ```
 
-## Defaults
+#### Julia
 
-If json2struct isn't able to determine the type of a given element, it tries to convert it to the closest type possible.
+```sh
+# example.json
+{
+    "number_key": 1,
+    "string_key": "json2struct",
+    "boolean_key": true,
+    "array_key": [42],
+    "map_key": { "key": "value" }
+}
+
+$ npx json2struct example.json example.jl --language julia
+```
+
+Writes the following to the output file:
+
+```julia
+# example.jl
+struct SubStruct1
+    key::String
+end
+
+struct GeneratedStruct
+    array_key::Array{Int64}
+    boolean_key::Bool
+    map_key::SubStruct1
+    number_key::Int64
+    string_key::String
+end
+```
+
+## Unknown values
+
+If json2struct isn't able to determine the type of a given element, it tries to convert it to the closest type possible. In most languages this will be the `Any` type of the language.
 
 ### Empty arrays
 
@@ -126,6 +158,12 @@ Array<unknown>;
 
 ```python
 List[Any]
+```
+
+#### Julia
+
+```julia
+Array{Any}
 ```
 
 ### Empty hashmaps
@@ -144,6 +182,12 @@ Record<string, unknown>;
 Dict[Any, Any]
 ```
 
+#### Julia
+
+```
+Dict{Any,Any}
+```
+
 ## Notes
 
 As said earlier the aim of this tool is to be used as a helper when writing type definitions, for that reason json2struct tries not to augment the output in any way.
@@ -151,3 +195,5 @@ As said earlier the aim of this tool is to be used as a helper when writing type
 One such example is not flattening the values of maps. In some cases it might make sense to flatten `[{ "a": 1 }, { "b": 1 }]` into `type GeneratedStruct = [{ a?: number; b?: number }];`. But in most cases flattening of maps requires having preexisting knowledge about the data that should be expected. For that reason json2struct prefers to let the user augment the type definition after, instead of imposing it's views on the user.
 
 For the same reason json2struct does not take into account whether a key is actually valid in the given language.
+
+Since this project is mostly meant to be a way for me to familiarize myself with different langauges, the types might not be the most optimal.

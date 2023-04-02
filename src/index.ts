@@ -4,6 +4,7 @@ import fs from 'fs/promises';
 
 import { Command, Option } from '@commander-js/extra-typings';
 
+import { generateJuliaStruct } from './languages/julia';
 import { generatePythonStruct } from './languages/python';
 import { generateTypeScriptType } from './languages/typescript';
 import { Token, tokenize } from './tokenizer';
@@ -15,6 +16,9 @@ function convertToLanguage(language: string, token: Token) {
 
         case 'python':
             return generatePythonStruct(token);
+
+        case 'julia':
+            return generateJuliaStruct(token);
 
         default:
             throw new Error(`${language} is not supported`);
@@ -38,7 +42,9 @@ program
     .description('Convert JSON file to type file')
     .option('--overwrite')
     .addOption(
-        new Option('-lang, --language <output-language>').choices(['typescript', 'python']).default('typescript')
+        new Option('-lang, --language <output-language>')
+            .choices(['typescript', 'python', 'julia'])
+            .default('typescript')
     )
     .action(async (inputPath, outputPath, args) => {
         console.info(`\u001b[32mjson2struct: Converting ${inputPath} to ${args.language}:\u001b[0m`);

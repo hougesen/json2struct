@@ -1,7 +1,7 @@
 {
     "name": "json2struct",
     "version": "0.3.0",
-    "description": "Easily translate JSON into type definitions. Currently supporting TypeScript and Python",
+    "description": "Easily translate JSON into type definitions",
     "main": "dist/index.js",
     "bin": {
         "json2struct": "./dist/index.js"
@@ -16,7 +16,8 @@
         "test:watch": "vitest",
         "local": "npm uninstall -g && npm install -g && json2struct",
         "example:typescript": "node dist/index.js ./examples/example.json ./examples/example.d.ts --language typescript --overwrite",
-        "example:python": "node dist/index.js ./examples/example.json ./examples/example.py --language python --overwrite"
+        "example:python": "node dist/index.js ./examples/example.json ./examples/example.py --language python --overwrite",
+        "example:julia": "node dist/index.js ./examples/example.json ./examples/example.jl --language julia --overwrite"
     },
     "repository": {
         "type": "git",
@@ -27,7 +28,8 @@
         "types",
         "cli",
         "typescript",
-        "python"
+        "python",
+        "julia"
     ],
     "author": "Mads Hougesen",
     "license": "MIT",

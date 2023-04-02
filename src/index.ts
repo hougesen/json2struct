@@ -38,18 +38,17 @@ program
     });
 
 program
-    .command('convert <input> [output]', { isDefault: true })
+    .command('convert <input>', { isDefault: true })
     .description('Convert JSON file to type file')
+    .option('-o --output <output-file>')
     .option('--overwrite')
     .addOption(
-        new Option('-lang, --language <output-language>')
-            .choices(['typescript', 'python', 'julia'])
-            .default('typescript')
+        new Option('-l --language <output-language>').choices(['typescript', 'python', 'julia']).default('typescript')
     )
-    .action(async (inputPath, outputPath, args) => {
+    .action(async (inputPath, args) => {
         console.info(`\u001b[32mjson2struct: Converting ${inputPath} to ${args.language}:\u001b[0m`);
 
-        if (!outputPath?.length && args?.overwrite) {
+        if (!args?.output?.length && args?.overwrite) {
             program.error('--overwrite options requires an output path');
             return;
         }
@@ -62,11 +61,11 @@ program
 
         const generatedStruct = convertToLanguage(args?.language ?? 'typescript', tokens);
 
-        if (outputPath?.length) {
+        if (args.output?.length) {
             if (args?.overwrite) {
-                await fs.writeFile(outputPath, generatedStruct);
+                await fs.writeFile(args.output, generatedStruct);
             } else {
-                await fs.appendFile(outputPath, generatedStruct);
+                await fs.appendFile(args.output, generatedStruct);
             }
         }
 

@@ -1,13 +1,14 @@
-from typing import List, TypedDict
+from typing import List, TypedDict, Union
 
 
 class SubStruct1(TypedDict):
-    key: str
+    falseValue: bool
+    floatValue: float
+    numberValue: int
+    stringValue: str
+    trueValue: bool
+    unionValue: List[Union[bool, float, int]]
 
 
 class GeneratedStruct(TypedDict):
-    array_key: List[int]
-    boolean_key: bool
-    map_key: SubStruct1
-    number_key: int
-    string_key: str
+    array: List[SubStruct1]

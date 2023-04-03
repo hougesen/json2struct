@@ -1,11 +1,12 @@
 struct SubStruct1
-    key::String
+    falseValue::Bool
+    floatValue::Float64
+    numberValue::Int64
+    stringValue::String
+    trueValue::Bool
+    unionValue::Array{Union{Bool,Float64,Int64}}
 end
 
 struct GeneratedStruct
-    array_key::Array{Int64}
-    boolean_key::Bool
-    map_key::SubStruct1
-    number_key::Int64
-    string_key::String
+    array::Array{SubStruct1}
 end

@@ -1,7 +1,10 @@
 type GeneratedStruct = {
-    array_key: Array<number>;
-    boolean_key: boolean;
-    map_key: { key: string };
-    number_key: number;
-    string_key: string;
+    array: Array<{
+        falseValue: boolean;
+        floatValue: number;
+        numberValue: number;
+        stringValue: string;
+        trueValue: boolean;
+        unionValue: Array<boolean | number>;
+    }>;
 };

@@ -1,13 +1,15 @@
 {
     "name": "json2struct",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "description": "Easily translate JSON into type definitions",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
         "dist"
     ],
-    "bin": "./dist/cli.js",
+    "bin": {
+        "json2struct": "./dist/cli.js"
+    },
     "scripts": {
         "start": "node dist/cli.js",
         "build": "tsc",
@@ -17,7 +19,7 @@
         "lint": "eslint --ext \".js,.mjs,.ts,.d.ts\" --ignore-path .gitignore .",
         "test": "vitest --run",
         "test:watch": "vitest",
-        "local": "npm uninstall -g && npm install -g && json2struct",
+        "local": "npm uninstall -g &&  npm install -g  && json2struct",
         "example:typescript": "node dist/cli.js ./examples/example.json --output ./examples/example.d.ts --language typescript --overwrite && prettier --write ./examples/example.d.ts",
         "example:python": "node dist/cli.js ./examples/example.json --output ./examples/example.py --language python --overwrite",
         "example:julia": "node dist/cli.js ./examples/example.json --output ./examples/example.jl --language julia --overwrite",

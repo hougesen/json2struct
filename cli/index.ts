@@ -4,10 +4,7 @@ import fs from 'fs/promises';
 
 import { Command, Option } from '@commander-js/extra-typings';
 
-import { convertToLanguage, SupportedLanguage } from './lib';
-import { tokenize } from './tokenizer';
-
-export * from './lib';
+import { convertToLanguage, SupportedLanguage, tokenize } from '../core';
 
 const program = new Command();
 

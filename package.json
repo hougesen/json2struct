@@ -7,12 +7,11 @@
     "files": [
         "dist"
     ],
-    "bin": {
-        "json2struct": "./dist/cli.js"
-    },
+    "bin": "./dist/cli.js",
     "scripts": {
         "start": "node dist/cli.js",
         "build": "tsc",
+        "build:clean": "tsc --build --clean && npm run build",
         "format": "prettier --ignore-path .gitignore --write .",
         "format:check": "prettier --check --ignore-path .gitignore --write .",
         "lint": "eslint --ext \".js,.mjs,.ts,.d.ts\" --ignore-path .gitignore .",

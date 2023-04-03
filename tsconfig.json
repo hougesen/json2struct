@@ -10,7 +10,8 @@
         "declaration": true,
         "declarationMap": true,
         "lib": ["es6", "es2015"],
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "skipLibCheck": true
     },
     "include": ["src/"],
     "exclude": ["src/__tests__/**", "**/**/*.test.ts"]

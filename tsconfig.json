@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "rootDir": "src",
         "outDir": "dist",
         "strict": true,
         "target": "es5",
@@ -13,6 +12,6 @@
         "resolveJsonModule": true,
         "skipLibCheck": true
     },
-    "include": ["src/"],
-    "exclude": ["src/__tests__/**", "**/**/*.test.ts"]
+    "include": ["cli/", "core/"],
+    "exclude": ["core/__tests__/**", "**/**/*.test.ts"]
 }

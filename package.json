@@ -3,12 +3,15 @@
     "version": "0.4.0",
     "description": "Easily translate JSON into type definitions",
     "main": "dist/index.js",
-    "bin": {
-        "json2struct": "./dist/index.js"
-    },
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "bin": "./dist/cli.js",
     "scripts": {
-        "start": "node dist/index.js",
+        "start": "node dist/cli.js",
         "build": "tsc",
+        "build:clean": "tsc --build --clean && npm run build",
         "format": "prettier --ignore-path .gitignore --write .",
         "format:check": "prettier --check --ignore-path .gitignore --write .",
         "lint": "eslint --ext \".js,.mjs,.ts,.d.ts\" --ignore-path .gitignore .",

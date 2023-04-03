@@ -143,6 +143,8 @@ end
 
 If json2struct isn't able to determine the type of a given element, it tries to convert it to the closest type possible. In most languages this will be the `Any` type of the language.
 
+For some languages, like Rust, this mean that the generated type definitions might not always be valid.
+
 ### Empty arrays
 
 By default empty arrays will be converted to:

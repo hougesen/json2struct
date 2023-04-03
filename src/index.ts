@@ -1,10 +1,10 @@
-import { generateJuliaStruct, generatePythonStruct, generateTypeScriptType } from './languages';
+import { generateJuliaStruct, generatePythonStruct, generateRustStruct, generateTypeScriptType } from './languages';
 import { Token, tokenize } from './tokenizer';
 
 export * from './languages';
 export * from './tokenizer';
 
-export type SupportedLanguage = 'typescript' | 'python' | 'julia';
+export type SupportedLanguage = 'typescript' | 'python' | 'julia' | 'rust';
 
 export function convertToLanguage(language: SupportedLanguage, token: Token) {
     switch (language) {
@@ -16,6 +16,9 @@ export function convertToLanguage(language: SupportedLanguage, token: Token) {
 
         case 'julia':
             return generateJuliaStruct(token);
+
+        case 'rust':
+            return generateRustStruct(token);
 
         default:
             throw new Error(`${language} is not supported`);

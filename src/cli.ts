@@ -26,7 +26,7 @@ program
     .option('--overwrite')
     .addOption(
         new Option('-l --language <output-language>')
-            .choices<SupportedLanguage[]>(['typescript', 'python', 'julia'])
+            .choices<SupportedLanguage[]>(['typescript', 'python', 'julia', 'rust'])
             .default('typescript')
     )
     .action(async (inputPath, args) => {

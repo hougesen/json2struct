@@ -18,9 +18,10 @@
         "test": "vitest --run",
         "test:watch": "vitest",
         "local": "npm uninstall -g && npm install -g && json2struct",
-        "example:typescript": "node dist/index.js ./examples/example.json --output ./examples/example.d.ts --language typescript --overwrite",
-        "example:python": "node dist/index.js ./examples/example.json --output ./examples/example.py --language python --overwrite",
-        "example:julia": "node dist/index.js ./examples/example.json --output ./examples/example.jl --language julia --overwrite"
+        "example:typescript": "node dist/cli.js ./examples/example.json --output ./examples/example.d.ts --language typescript --overwrite && prettier --write ./examples/example.d.ts",
+        "example:python": "node dist/cli.js ./examples/example.json --output ./examples/example.py --language python --overwrite",
+        "example:julia": "node dist/cli.js ./examples/example.json --output ./examples/example.jl --language julia --overwrite",
+        "example:rust": "node dist/cli.js ./examples/example.json --output ./examples/example.rs --language rust --overwrite"
     },
     "repository": {
         "type": "git",

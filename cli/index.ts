@@ -11,7 +11,7 @@ const program = new Command();
 program
     .name('json2struct')
     .description('Easily translate JSON into type definitions')
-    .version('0.4.1')
+    .version('0.4.2')
     .configureOutput({
         writeOut: (str) => process.stdout.write(`[OUT] ${str}`),
         writeErr: (str) => process.stdout.write(`[ERR] ${str}`),

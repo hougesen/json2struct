@@ -64,7 +64,7 @@ function convertMap(token: MapToken, imports: Set<string>, subStructs: Map<strin
 
     childTypesArr.sort();
 
-    const structValue = whitespace + childTypesArr.join('\n' + whitespace);
+    const structValue = whitespace + childTypesArr.join(`\n${whitespace}`);
 
     const existingKey = subStructs.get(structValue);
 
@@ -122,7 +122,7 @@ export function generatePythonStruct(token: Token) {
 
     const result = convertTokenToPython(token, imports, subStructs);
 
-    let typeFile = generateTypingImports(imports);
+    let typeFile = '';
 
     let isClass = false;
 
@@ -136,8 +136,10 @@ export function generatePythonStruct(token: Token) {
     });
 
     if (!isClass) {
-        typeFile += `GeneratedStruct: ${result}\n`;
+        imports.add('TypeAlias');
+
+        typeFile += `GeneratedStruct: TypeAlias = ${result}\n`;
     }
 
-    return typeFile;
+    return generateTypingImports(imports) + typeFile;
 }

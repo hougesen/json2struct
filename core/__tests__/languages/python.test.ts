@@ -6,46 +6,68 @@ import { tokenize } from '../../tokenizer/';
 describe('primitives', () => {
     it('strings', () => {
         expect(convertTokenToPython(tokenize('mads'), new Set(), new Map())).toEqual('str');
-        expect(generatePythonStruct(tokenize('mads'))).toEqual('GeneratedStruct: str\n');
+        expect(generatePythonStruct(tokenize('mads'))).toEqual(
+            'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = str\n'
+        );
 
         expect(convertTokenToPython(tokenize('was'), new Set(), new Map())).toEqual('str');
-        expect(generatePythonStruct(tokenize('was'))).toEqual('GeneratedStruct: str\n');
+        expect(generatePythonStruct(tokenize('was'))).toEqual(
+            'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = str\n'
+        );
 
         expect(convertTokenToPython(tokenize('here'), new Set(), new Map())).toEqual('str');
 
-        expect(generatePythonStruct(tokenize('here'))).toEqual('GeneratedStruct: str\n');
+        expect(generatePythonStruct(tokenize('here'))).toEqual(
+            'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = str\n'
+        );
     });
 
     it('numbers', () => {
         expect(convertTokenToPython(tokenize(1), new Set(), new Map())).toEqual('int');
-        expect(generatePythonStruct(tokenize(1))).toEqual('GeneratedStruct: int\n');
+        expect(generatePythonStruct(tokenize(1))).toEqual(
+            'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = int\n'
+        );
 
         expect(convertTokenToPython(tokenize(2), new Set(), new Map())).toEqual('int');
-        expect(generatePythonStruct(tokenize(2))).toEqual('GeneratedStruct: int\n');
+        expect(generatePythonStruct(tokenize(2))).toEqual(
+            'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = int\n'
+        );
 
         expect(convertTokenToPython(tokenize(3), new Set(), new Map())).toEqual('int');
-        expect(generatePythonStruct(tokenize(3))).toEqual('GeneratedStruct: int\n');
+        expect(generatePythonStruct(tokenize(3))).toEqual(
+            'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = int\n'
+        );
     });
 
     it('floats', () => {
         expect(convertTokenToPython(tokenize(1.2), new Set(), new Map())).toEqual('float');
-        expect(generatePythonStruct(tokenize(1.2))).toEqual('GeneratedStruct: float\n');
+        expect(generatePythonStruct(tokenize(1.2))).toEqual(
+            'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = float\n'
+        );
 
         expect(convertTokenToPython(tokenize(3.21), new Set(), new Map())).toEqual('float');
-        expect(generatePythonStruct(tokenize(3.21))).toEqual('GeneratedStruct: float\n');
+        expect(generatePythonStruct(tokenize(3.21))).toEqual(
+            'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = float\n'
+        );
     });
 
     it('booleans', () => {
         expect(convertTokenToPython(tokenize(true), new Set(), new Map())).toEqual('bool');
-        expect(generatePythonStruct(tokenize(true))).toEqual('GeneratedStruct: bool\n');
+        expect(generatePythonStruct(tokenize(true))).toEqual(
+            'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = bool\n'
+        );
 
         expect(convertTokenToPython(tokenize(false), new Set(), new Map())).toEqual('bool');
-        expect(generatePythonStruct(tokenize(false))).toEqual('GeneratedStruct: bool\n');
+        expect(generatePythonStruct(tokenize(false))).toEqual(
+            'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = bool\n'
+        );
     });
 
     it('nulls', () => {
         expect(convertTokenToPython(tokenize(null), new Set(), new Map())).toEqual('None');
-        expect(generatePythonStruct(tokenize(null))).toEqual('GeneratedStruct: None\n');
+        expect(generatePythonStruct(tokenize(null))).toEqual(
+            'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = None\n'
+        );
     });
 });
 
@@ -53,7 +75,7 @@ describe('arrays', () => {
     it('empty arrays should be List[Any]', () => {
         expect(convertTokenToPython(tokenize([]), new Set(), new Map())).toEqual('List[Any]');
         expect(generatePythonStruct(tokenize([]))).toEqual(
-            'from typing import Any, List\n\n\nGeneratedStruct: List[Any]\n'
+            'from typing import Any, List, TypeAlias\n\n\nGeneratedStruct: TypeAlias = List[Any]\n'
         );
     });
 
@@ -79,13 +101,13 @@ describe('arrays', () => {
         expect(convertTokenToPython(tokenize(['mads', 'was', 'here']), new Set(), new Map())).toEqual('List[str]');
 
         expect(generatePythonStruct(tokenize(['mads', 'was', 'here']))).toEqual(
-            'from typing import List\n\n\nGeneratedStruct: List[str]\n'
+            'from typing import List, TypeAlias\n\n\nGeneratedStruct: TypeAlias = List[str]\n'
         );
 
         expect(convertTokenToPython(tokenize([1, 2, 3]), new Set(), new Map())).toEqual('List[int]');
 
         expect(generatePythonStruct(tokenize([1, 2, 3]))).toEqual(
-            'from typing import List\n\n\nGeneratedStruct: List[int]\n'
+            'from typing import List, TypeAlias\n\n\nGeneratedStruct: TypeAlias = List[int]\n'
         );
     });
 
@@ -95,7 +117,7 @@ describe('arrays', () => {
         );
 
         expect(generatePythonStruct(tokenize(['mads', 1, 'mhouge.dk', 2, 3]))).toEqual(
-            'from typing import List, Union\n\n\nGeneratedStruct: List[Union[int, str]]\n'
+            'from typing import List, TypeAlias, Union\n\n\nGeneratedStruct: TypeAlias = List[Union[int, str]]\n'
         );
     });
 
@@ -105,14 +127,14 @@ describe('arrays', () => {
         ).toEqual('List[SubStruct1]');
 
         expect(generatePythonStruct(tokenize([{ key: 'mads' }, { key: 'was' }, { key: 'here' }]))).toEqual(
-            `from typing import List, TypedDict
+            `from typing import List, TypeAlias, TypedDict
 
 
 class SubStruct1(TypedDict):
     key: str
 
 
-GeneratedStruct: List[SubStruct1]
+GeneratedStruct: TypeAlias = List[SubStruct1]
 `
         );
     });
@@ -129,7 +151,7 @@ describe('maps', () => {
         expect(convertTokenToPython(tokenize({}), new Set(), new Map())).toEqual('Dict[Any, Any]');
 
         expect(generatePythonStruct(tokenize({}))).toEqual(
-            'from typing import Any, Dict\n\n\nGeneratedStruct: Dict[Any, Any]\n'
+            'from typing import Any, Dict, TypeAlias\n\n\nGeneratedStruct: TypeAlias = Dict[Any, Any]\n'
         );
     });
 
@@ -222,55 +244,67 @@ class GeneratedStruct(TypedDict):
 
 describe('generatePythonStruct', () => {
     describe('base types', () => {
-        it('only string', () => expect(generatePythonStruct(tokenize('mhouge.dk'))).toEqual('GeneratedStruct: str\n'));
+        it('only string', () =>
+            expect(generatePythonStruct(tokenize('mhouge.dk'))).toEqual(
+                'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = str\n'
+            ));
 
-        it('only number', () => expect(generatePythonStruct(tokenize(42))).toEqual('GeneratedStruct: int\n'));
+        it('only number', () =>
+            expect(generatePythonStruct(tokenize(42))).toEqual(
+                'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = int\n'
+            ));
 
-        it('only float', () => expect(generatePythonStruct(tokenize(42.42))).toEqual('GeneratedStruct: float\n'));
+        it('only float', () =>
+            expect(generatePythonStruct(tokenize(42.42))).toEqual(
+                'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = float\n'
+            ));
 
-        it('only null', () => expect(generatePythonStruct(tokenize(null))).toEqual('GeneratedStruct: None\n'));
+        it('only null', () =>
+            expect(generatePythonStruct(tokenize(null))).toEqual(
+                'from typing import TypeAlias\n\n\nGeneratedStruct: TypeAlias = None\n'
+            ));
 
         it('empty array', () =>
             expect(generatePythonStruct(tokenize([]))).toEqual(
-                'from typing import Any, List\n\n\nGeneratedStruct: List[Any]\n'
+                'from typing import Any, List, TypeAlias\n\n\nGeneratedStruct: TypeAlias = List[Any]\n'
             ));
 
         it('string array', () =>
             expect(generatePythonStruct(tokenize(['mhouge.dk']))).toEqual(
-                'from typing import List\n\n\nGeneratedStruct: List[str]\n'
+                'from typing import List, TypeAlias\n\n\nGeneratedStruct: TypeAlias = List[str]\n'
             ));
 
         it('number array', () =>
             expect(generatePythonStruct(tokenize([42]))).toEqual(
-                'from typing import List\n\n\nGeneratedStruct: List[int]\n'
+                'from typing import List, TypeAlias\n\n\nGeneratedStruct: TypeAlias = List[int]\n'
             ));
 
         it('null arrays should return Any', () =>
             expect(generatePythonStruct(tokenize([null]))).toEqual(
-                'from typing import Any, List\n\n\nGeneratedStruct: List[Any]\n'
+                'from typing import Any, List, TypeAlias\n\n\nGeneratedStruct: TypeAlias = List[Any]\n'
             ));
 
         it('empty matrix', () =>
             expect(generatePythonStruct(tokenize([[], [], []]))).toEqual(
-                'from typing import Any, List\n\n\nGeneratedStruct: List[List[Any]]\n'
+                'from typing import Any, List, TypeAlias\n\n\nGeneratedStruct: TypeAlias = List[List[Any]]\n'
             ));
 
         it('mixed array', () => {
             expect(generatePythonStruct(tokenize([1, 'mhouge.dk']))).toEqual(
-                'from typing import List, Union\n\n\nGeneratedStruct: List[Union[int, str]]\n'
+                'from typing import List, TypeAlias, Union\n\n\nGeneratedStruct: TypeAlias = List[Union[int, str]]\n'
             );
         });
 
         it('arrays with multiple values and null should return optional', () =>
             expect(generatePythonStruct(tokenize([1, 'mhouge.dk', null]))).toEqual(
-                'from typing import List, Optional, Union\n\n\nGeneratedStruct: List[Optional[Union[int, str]]]\n'
+                'from typing import List, Optional, TypeAlias, Union\n\n\nGeneratedStruct: TypeAlias = List[Optional[Union[int, str]]]\n'
             ));
     });
 
     describe('objects', () => {
         it('empty dict', () =>
             expect(generatePythonStruct(tokenize({}))).toEqual(
-                'from typing import Any, Dict\n\n\nGeneratedStruct: Dict[Any, Any]\n'
+                'from typing import Any, Dict, TypeAlias\n\n\nGeneratedStruct: TypeAlias = Dict[Any, Any]\n'
             ));
 
         it('object with only primitives', () => {

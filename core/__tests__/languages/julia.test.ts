@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { convertTokenToJulia, generateJuliaStruct } from '../../languages/julia';
-import { tokenize } from '../../tokenizer/';
+import { tokenize } from '../../tokenizer';
 
 describe('primitives', () => {
     it('strings', () => {

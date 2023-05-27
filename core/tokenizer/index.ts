@@ -37,9 +37,7 @@ export function tokenize(content: unknown | unknown[], key?: string): Token {
 
     const base: { key?: string } = {};
 
-    if (key?.length) {
-        base['key'] = key;
-    }
+    if (key?.length) base.key = key;
 
     switch (t) {
         case 'array': {
@@ -71,11 +69,7 @@ export function tokenize(content: unknown | unknown[], key?: string): Token {
         }
 
         case 'map': {
-            const children = <Token[]>[];
-
-            const entries = Object.entries(content as object);
-
-            for (const [key, value] of entries) children.push(tokenize(value, key));
+            const children = Object.entries(content as Record<string, unknown>).map(([k, v]) => tokenize(v, k));
 
             if (children.length) children.sort(sortChildren);
 

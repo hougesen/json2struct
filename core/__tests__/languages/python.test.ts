@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { convertTokenToPython, generatePythonStruct } from '../../languages/python';
-import { tokenize } from '../../tokenizer/';
+import { tokenize } from '../../tokenizer';
 
 describe('primitives', () => {
     it('strings', () => {

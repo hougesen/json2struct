@@ -6,10 +6,8 @@ function convertArray(token: ArrayToken): string {
 
     const children = new Set<string>();
 
-    for (let i = 0; i < token.children?.length; i += 1) {
-        const t = convertTokenToTypeScript(token.children[i]);
-
-        if (!children.has(t)) children.add(t);
+    for (let i = 0; i < token.children.length; i += 1) {
+        children.add(convertTokenToTypeScript(token.children[i]));
     }
 
     const childTypes = Array.from(children);

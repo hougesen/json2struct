@@ -1,4 +1,4 @@
-import { Token } from '../tokenizer';
+import { Token } from '.';
 
 export function sortChildren(a: Token, b: Token): 1 | -1 {
     if (a?.key && b?.key && a?.key !== b?.key) {

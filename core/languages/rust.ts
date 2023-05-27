@@ -85,16 +85,13 @@ function convertArray(token: ArrayToken, subStructs: Map<string, string>, subEnu
     }
 
     const optional = children.has('None');
+    if (optional) children.delete('None');
 
     const childTypesArr = Array.from(children);
 
-    if (childTypesArr.length === 0) return 'Vec';
+    if (childTypesArr.length === 0) return optional ? 'Vec<None>' : 'Vec';
 
-    if (childTypesArr.length === 1) {
-        if (optional) return `Vec<${childTypesArr[0]}>`;
-
-        return `Vec<${childTypesArr[0]}>`;
-    }
+    if (childTypesArr.length === 1) return optional ? `Vec<Option<${childTypesArr[0]}>>` : `Vec<${childTypesArr[0]}>`;
 
     childTypesArr.sort();
 

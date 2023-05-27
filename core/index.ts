@@ -1,3 +1,4 @@
+import { UnsupportedLanguageError } from './errors';
 import { generateJuliaStruct, generatePythonStruct, generateRustStruct, generateTypeScriptType } from './languages';
 import { Token, tokenize } from './tokenizer';
 
@@ -21,7 +22,7 @@ export function convertToLanguage(language: SupportedLanguage, token: Token) {
             return generateRustStruct(token);
 
         default:
-            throw new Error(`${language} is not supported`);
+            throw new UnsupportedLanguageError(language);
     }
 }
 

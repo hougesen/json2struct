@@ -1,3 +1,4 @@
+import { RecordTokenMissingKey } from '../errors';
 import { ArrayToken, MapToken, Token } from '../tokenizer';
 
 const whitespace = '    ';
@@ -107,19 +108,14 @@ function convertArray(token: ArrayToken, subStructs: Map<string, string>, subEnu
 function convertMap(token: MapToken, subStructs: Map<string, string>, subEnums: Map<string, string>) {
     const children = new Set<string>();
 
-    if (token?.children?.length) {
-        for (let i = 0; i < token.children.length; i += 1) {
-            const restrictedWordPrefix = reservedKeywords.has(token.children[i].key as string) ? 'r#' : '';
+    token.children?.forEach((child) => {
+        // empty keys are not allowed in Rust
+        if (!child.key?.length) throw new RecordTokenMissingKey();
 
-            children.add(
-                `${restrictedWordPrefix}${token.children[i].key}: ${convertTokenToRust(
-                    token.children[i],
-                    subStructs,
-                    subEnums
-                )},`
-            );
-        }
-    }
+        const restrictedWordPrefix = reservedKeywords.has(child.key) ? 'r#' : '';
+
+        children.add(`${restrictedWordPrefix}${child.key}: ${convertTokenToRust(child, subStructs, subEnums)},`);
+    });
 
     const childTypesArr = Array.from(children);
 

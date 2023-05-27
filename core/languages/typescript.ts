@@ -1,3 +1,4 @@
+import { RecordTokenMissingKey } from '../errors';
 import { ArrayToken, MapToken, Token } from '../tokenizer';
 
 function convertArray(token: ArrayToken): string {
@@ -23,9 +24,12 @@ function convertMap(token: MapToken): string {
 
     const children = new Set<string>();
 
-    for (let i = 0; i < token.children.length; i += 1) {
-        children.add(`"${token.children[i].key}": ${convertTokenToTypeScript(token.children[i])}`);
-    }
+    token?.children?.forEach((child) => {
+        // empty keys are allowed in TypeScript
+        if (child.key === undefined) throw new RecordTokenMissingKey();
+
+        children.add(`"${child.key}": ${convertTokenToTypeScript(child)}`);
+    });
 
     const childTypesArr = Array.from(children);
 

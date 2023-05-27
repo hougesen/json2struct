@@ -1,3 +1,4 @@
+import { RecordTokenMissingKey } from '../errors';
 import { ArrayToken, MapToken, Token } from '../tokenizer';
 
 const whitespace = '    ';
@@ -30,9 +31,11 @@ function convertMap(token: MapToken, subStructs: Map<string, string>) {
 
     const children = new Set<string>();
 
-    for (let i = 0; i < token.children.length; i += 1) {
-        children.add(`${token.children[i].key}::${convertTokenToJulia(token.children[i], subStructs)}`);
-    }
+    token.children.forEach((child) => {
+        if (!child.key?.length) throw new RecordTokenMissingKey();
+
+        children.add(`${child.key}::${convertTokenToJulia(child, subStructs)}`);
+    });
 
     const childTypesArr = Array.from(children);
 

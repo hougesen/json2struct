@@ -41,7 +41,7 @@ function convertMap(token: MapToken, subStructs: Map<string, string>) {
 
     childTypesArr.sort();
 
-    const structValue = whitespace + childTypesArr.join('\n' + whitespace);
+    const structValue = childTypesArr?.length ? whitespace + childTypesArr.join(`\n${whitespace}`) : '';
 
     const existingKey = subStructs.get(structValue);
 

@@ -43,7 +43,7 @@ type GeneratedStruct = { array_key: Array<number>; boolean_key: boolean; map_key
 
 ### Writing struct to file
 
-To write the sturcture to a file pass use the output option `$ npx json2struct <REQUIRED_INPUT_FILE> --output <OUTPUT_FILE>`.
+To write the structure to a file pass use the output option `$ npx json2struct <REQUIRED_INPUT_FILE> --output <OUTPUT_FILE>`.
 
 ```sh
 # example.json
@@ -201,4 +201,4 @@ One such example is not flattening the values of maps. In some cases it might ma
 
 For the same reason json2struct does not take into account whether a key is actually valid in the given language.
 
-Since this project is mostly meant to be a way for me to familiarize myself with different langauges, the types might not be the most optimal.
+Since this project is mostly meant to be a way for me to familiarize myself with different languages, the types might not be the most optimal.

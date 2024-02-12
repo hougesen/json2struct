@@ -1,11 +1,15 @@
-name: code-quality
+name: validate-docs
 
 on:
     push:
 
 jobs:
-    code-quality:
+    validate-docs:
         runs-on: ${{ matrix.os }}
+
+        defaults:
+            run:
+                working-directory: ./www
 
         strategy:
             matrix:
@@ -31,16 +35,16 @@ jobs:
                       ${{ runner.os }}-node-
 
             - name: Install dependencies 👨🏻‍💻
-              run: npm i
+              run: npm install
 
             - name: Build project
               run: npm run build
-
-            - name: Test project 🫣
-              run: npm run test
 
             - name: Run lint 👀
               run: npm run lint
 
             - name: Run format 💎
               run: npm run format:check
+
+            - name: Typecheck
+              run: npm run check

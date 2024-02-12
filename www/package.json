@@ -21,7 +21,7 @@
         "@types/prettier": "^2.7.2",
         "autoprefixer": "^10.4.14",
         "postcss": "^8.4.31",
-        "svelte": "^3.54.0",
+        "svelte": "^3.59.2",
         "svelte-check": "^3.0.1",
         "tailwindcss": "^3.3.1",
         "tslib": "^2.4.1",

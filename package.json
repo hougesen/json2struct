@@ -50,11 +50,11 @@
     "devDependencies": {
         "@types/eslint": "^8.21.3",
         "@types/node": "^20.11.17",
-        "@types/prettier": "^2.7.2",
+        "@types/prettier": "^3.0.0",
         "@typescript-eslint/eslint-plugin": "^5.55.0",
         "@typescript-eslint/parser": "^5.55.0",
         "eslint": "^8.36.0",
-        "prettier": "^2.8.6",
+        "prettier": "^3.2.5",
         "typescript": "^5.0.2",
         "vite": "^4.2.0",
         "vitest": "^0.29.3"

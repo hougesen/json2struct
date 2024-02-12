@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-
 import { ArrayToken, MapToken, PrimitiveToken, tokenize } from '../tokenizer';
 
 describe('primitives', () => {

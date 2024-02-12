@@ -44,8 +44,8 @@
     },
     "homepage": "https://github.com/hougesen/json2struct#readme",
     "dependencies": {
-        "@commander-js/extra-typings": "^10.0.3",
-        "commander": "^10.0.1"
+        "@commander-js/extra-typings": "^12.0.0",
+        "commander": "^12.0.0"
     },
     "devDependencies": {
         "@types/eslint": "^8.21.3",

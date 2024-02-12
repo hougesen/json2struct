@@ -1,8 +1,10 @@
 <script lang="ts" defer>
     import json2struct from 'json2struct';
     import { format } from 'prettier/standalone';
-    import typescriptParser from 'prettier/parser-typescript';
-    $: jsonInput = ``;
+    import estreeParser from 'prettier/plugins/estree';
+    import typescriptParser from 'prettier/plugins/typescript';
+
+    $: jsonInput = '';
 
     $: convertedStruct = '';
     $: selectedLanguage = 'typescript';
@@ -17,7 +19,10 @@
             convertedStruct = json2struct(selectedLanguage, jsonInput);
 
             if (selectedLanguage === 'typescript') {
-                convertedStruct = format(convertedStruct, { parser: 'typescript', plugins: [typescriptParser] });
+                convertedStruct = await format(convertedStruct, {
+                    parser: 'typescript',
+                    plugins: [estreeParser, typescriptParser],
+                });
             }
         } catch (error) {
             console.error('error', error);

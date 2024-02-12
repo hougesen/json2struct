@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
-import fs from 'fs/promises';
-
 import { Command, Option } from '@commander-js/extra-typings';
-
-import { convertToLanguage, SupportedLanguage, tokenize } from '../core';
+import fs from 'fs/promises';
+import { SupportedLanguage, convertToLanguage, tokenize } from '../core';
 
 const program = new Command();
 

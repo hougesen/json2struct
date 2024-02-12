@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-
 import { convertTokenToTypeScript, generateTypeScriptType } from '../../languages/typescript';
 import { tokenize } from '../../tokenizer';
 

@@ -14,11 +14,10 @@
     },
     "dependencies": {
         "json2struct": "^0.4.2",
-        "prettier": "^2.8.8"
+        "prettier": "^3.2.5"
     },
     "devDependencies": {
         "@sveltejs/adapter-cloudflare": "^2.2.0",
-        "@types/prettier": "^2.7.2",
         "autoprefixer": "^10.4.14",
         "postcss": "^8.4.31",
         "svelte": "^3.54.0",

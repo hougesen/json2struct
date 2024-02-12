@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-
 import { convertTokenToJulia, generateJuliaStruct } from '../../languages/julia';
 import { tokenize } from '../../tokenizer';
 

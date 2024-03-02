@@ -30,8 +30,11 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-node-
 
-            - name: Install dependencies 👨🏻‍💻
+            - name: Install library dependencies 👨🏻‍💻
               run: npm i
+
+            - name: Install www dependencies
+              run: cd www && npm i
 
             - name: Build project
               run: npm run build

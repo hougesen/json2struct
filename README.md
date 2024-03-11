@@ -1,6 +1,6 @@
 # json2struct
 
-json2struct is a tool that translates JSON into type definitions. It currently supports translating to TypeScript, Python and Julia.
+json2struct is a tool that translates JSON into type definitions. It currently supports translating to TypeScript, Python, Julia and Rust.
 
 The goal is for the definitions to be used as a starting point for the user, and not as a single source of truth.
 

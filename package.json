@@ -1,6 +1,6 @@
 {
     "name": "json2struct",
-    "version": "0.4.2",
+    "version": "0.4.3",
     "description": "Easily translate JSON into type definitions",
     "main": "dist/core/index.js",
     "types": "dist/core/index.d.ts",

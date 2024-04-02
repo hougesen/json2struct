@@ -13,7 +13,7 @@
         "format:check": "prettier --check ."
     },
     "dependencies": {
-        "json2struct": "^0.4.2",
+        "json2struct": "^0.4.3",
         "prettier": "^3.2.5"
     },
     "devDependencies": {

@@ -44,17 +44,17 @@
     },
     "homepage": "https://github.com/hougesen/json2struct#readme",
     "dependencies": {
-        "@commander-js/extra-typings": "^12.0.0",
+        "@commander-js/extra-typings": "^12.0.1",
         "commander": "^12.0.0"
     },
     "devDependencies": {
         "@types/eslint": "^8.56.7",
-        "@types/node": "^20.11.17",
+        "@types/node": "^20.12.4",
         "@typescript-eslint/eslint-plugin": "^7.5.0",
         "@typescript-eslint/parser": "^7.5.0",
         "eslint": "^8.57.0",
         "prettier": "^3.2.5",
-        "typescript": "^5.0.2",
+        "typescript": "^5.4.3",
         "vite": "^5.1.1",
         "vitest": "^1.2.2"
     }

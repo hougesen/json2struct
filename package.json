@@ -1,6 +1,6 @@
 {
     "name": "json2struct",
-    "version": "0.4.3",
+    "version": "0.4.4",
     "description": "Easily translate JSON into type definitions",
     "main": "dist/core/index.js",
     "types": "dist/core/index.d.ts",
@@ -35,7 +35,8 @@
         "cli",
         "typescript",
         "python",
-        "julia"
+        "julia",
+        "rust"
     ],
     "author": "Mads Hougesen",
     "license": "MIT",

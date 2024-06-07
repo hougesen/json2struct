@@ -60,9 +60,15 @@ $ npx json2struct example.json --output example.d.ts
 
 Writes the following to the output file:
 
-```ts
-# example.d.ts
-type GeneratedStruct = { array_key: Array<number>; boolean_key: boolean; map_key: { key: string }; number_key: number; string_key: string }
+```typescript
+// example.d.ts
+type GeneratedStruct = {
+    array_key: Array<number>;
+    boolean_key: boolean;
+    map_key: { key: string };
+    number_key: number;
+    string_key: string;
+};
 ```
 
 The default behavior is to append to the output file. This behavior can be overwritten by passing the option `--overwrite`.
@@ -151,7 +157,7 @@ By default empty arrays will be converted to:
 
 #### TypeScript
 
-```ts
+```typescript
 Array<unknown>;
 ```
 
@@ -173,7 +179,7 @@ Hashmaps without keys will be converted to:
 
 #### TypeScript
 
-```ts
+```typescript
 Record<string, unknown>;
 ```
 
@@ -185,7 +191,7 @@ Dict[Any, Any]
 
 #### Julia
 
-```
+```julia
 Dict{Any,Any}
 ```
 

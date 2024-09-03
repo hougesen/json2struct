@@ -57,7 +57,7 @@ const reservedKeywords = new Set([
     'yield',
 ]);
 
-function generateEnum(children: Array<string>, subEnums: Map<string, string>): string {
+function generateEnum(children: string[], subEnums: Map<string, string>): string {
     let enumValue = '';
 
     for (let i = 0; i < children.length; i += 1) {

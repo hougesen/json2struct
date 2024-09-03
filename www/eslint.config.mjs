@@ -1,6 +1,7 @@
 // @ts-check
 
 import pluginJs from '@eslint/js';
+import eslintPluginSvelte from 'eslint-plugin-svelte';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -9,6 +10,7 @@ export default [
     { languageOptions: { globals: globals.node } },
     pluginJs.configs.recommended,
     ...tseslint.configs.recommended,
+    ...eslintPluginSvelte.configs['flat/recommended'],
     {
         rules: {
             'object-shorthand': 'error',
@@ -41,6 +43,6 @@ export default [
         },
     },
     {
-        ignores: ['dist', './dist/*', 'www'],
+        ignores: ['dist', './dist/*', '.svelte-kit'],
     },
 ];

@@ -10,7 +10,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest]
-                node: [20]
+                node: [22]
 
         steps:
             - name: Checkout 🛎
@@ -58,7 +58,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest]
-                node: [20]
+                node: [22]
 
         steps:
             - name: Checkout 🛎

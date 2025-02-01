@@ -46,7 +46,7 @@
     },
     "homepage": "https://github.com/hougesen/json2struct#readme",
     "dependencies": {
-        "@commander-js/extra-typings": "^12.1.0",
+        "@commander-js/extra-typings": "^13.1.0",
         "commander": "^12.1.0"
     },
     "devDependencies": {
